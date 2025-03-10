@@ -370,13 +370,14 @@ header h1 {
         height: 30vh;          /* Уменьшаем высоту для мобильных */
     }
     
-    header h1 {
-        font-size: 2rem;       /* Уменьшаем размер заголовка */
-    }
-    
-    header p {
-        font-size: 1rem;       /* Уменьшаем размер подзаголовка */
-    }
+header h1 {
+    font-size: clamp(1.5rem, 5vw, 3rem); /* Уменьшается на маленьких экранах */
+    text-align: center;
+}
+
+header p {
+    font-size: clamp(1rem, 3vw, 1.5rem);
+}
     
     /* Адаптация логотипа */
     .logo-container {
@@ -407,6 +408,12 @@ header h1 {
     main {
         padding: 60px 10px 20px;
     }
+	
+.logo-img, .header h1 {
+    mix-blend-mode: normal; /* Убираем наложение */
+}
+
+	
 }
 		}
 		
