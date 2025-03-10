@@ -412,7 +412,9 @@ header p {
 .logo-img, .header h1 {
     mix-blend-mode: normal; /* Убираем наложение */
 }
-
+body {
+        animation: none;
+    }
 	
 }
 		}
