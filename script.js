@@ -140,3 +140,85 @@ particlesJS("particles-js", {
     window.onload = function() {
         setTimeout(() => loadMarkdown("point1"), 100); // Короткая задержка на 100мс для корректной загрузки
     };
+	
+	
+	
+document.addEventListener("DOMContentLoaded", function () {
+    const carousel = document.querySelector(".carousel-inner");
+    let items = Array.from(document.querySelectorAll(".carousel-item"));
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+
+    let index = items.length; // Начинаем с конца списка, чтобы первые элементы сразу были в очереди
+    let itemWidth = items[0].offsetWidth + 20;
+    let isMoving = false;
+    let autoSlideInterval;
+
+    // Клонируем элементы
+    items.forEach((item) => {
+        const clone = item.cloneNode(true);
+        clone.classList.add("clone");
+        carousel.appendChild(clone);
+    });
+
+    items.forEach((item) => {
+        const clone = item.cloneNode(true);
+        clone.classList.add("clone");
+        carousel.insertBefore(clone, items[0]);
+    });
+
+    const allItems = Array.from(document.querySelectorAll(".carousel-item"));
+    itemWidth = allItems[1].offsetWidth + 20;
+
+    // Устанавливаем начальное смещение
+    carousel.style.transform = `translateX(${-index * itemWidth}px)`;
+
+    function updateCarousel() {
+        if (isMoving) return;
+        isMoving = true;
+        carousel.style.transition = "transform 0.5s ease-in-out";
+        carousel.style.transform = `translateX(${-index * itemWidth}px)`;
+
+        setTimeout(() => {
+            if (index >= allItems.length - items.length) {
+                carousel.style.transition = "none";
+                index = items.length;
+                carousel.style.transform = `translateX(${-index * itemWidth}px)`;
+            }
+            if (index <= 0) {
+                carousel.style.transition = "none";
+                index = allItems.length - items.length * 2;
+                carousel.style.transform = `translateX(${-index * itemWidth}px)`;
+            }
+            isMoving = false;
+        }, 500);
+    }
+
+    nextBtn.addEventListener("click", function () {
+        index++;
+        updateCarousel();
+    });
+
+    prevBtn.addEventListener("click", function () {
+        index--;
+        updateCarousel();
+    });
+
+    function autoSlide() {
+        index++;
+        updateCarousel();
+    }
+
+    autoSlideInterval = setInterval(autoSlide, 3000);
+
+    carousel.addEventListener("mouseenter", () => clearInterval(autoSlideInterval));
+    carousel.addEventListener("mouseleave", () => {
+        autoSlideInterval = setInterval(autoSlide, 3000);
+    });
+
+    window.addEventListener("resize", function () {
+        itemWidth = allItems[1].offsetWidth + 20;
+        carousel.style.transition = "none";
+        carousel.style.transform = `translateX(${-index * itemWidth}px)`;
+    });
+});
