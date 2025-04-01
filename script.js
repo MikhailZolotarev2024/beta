@@ -222,3 +222,10 @@ document.addEventListener("DOMContentLoaded", function () {
         carousel.style.transform = `translateX(${-index * itemWidth}px)`;
     });
 });
+
+document.getElementById('showMoreNews').addEventListener('click', function(e) {
+  e.preventDefault();
+  const widget = document.querySelector('.news-widget');
+  widget.classList.remove('collapsed');    // убираем класс, скрывающий новости
+  this.style.display = 'none';            // скрываем саму кнопку "Показать больше"
+});
